@@ -28,6 +28,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+// If the user is not authenticated, redirect it to '/login'.
+app.use(function(req, res, next){
+	if (!req.session.loggedIn) return res.render('login.jade');
+	next();
+});
 
 app.get('/', routes.index);
 app.get('/users', user.list);
