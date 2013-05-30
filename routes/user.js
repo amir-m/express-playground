@@ -4,14 +4,14 @@ module.exports = function(colors, mongoose, models) {
 		
 		if (req.session.loggedIn) return res.redirect('/');
 
-		if (!req.param('email') || req.param('email').length < 1 || 
-			!req.param('password') || req.param('password').length < 1) {
+		if (!req.body.email || req.body.email.length < 1 || 
+			!req.body.password || req.body.password.length < 1) {
 			res.status(400);
 			console.log('POST /login: Missing Username or Password.'.error);
 			return res.send('Email and Password Are Required.');
 		};
 
-		models.User.authenticate(req.param('email'), req.param('password'), function(r){
+		models.User.authenticate(req.body.email, req.body.email, function(r){
 			
 			if (r.success) {
 				console.log('POST /login Successfull Login.'.info);
