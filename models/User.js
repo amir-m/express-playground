@@ -3,7 +3,7 @@ module.exports = function(mongoose) {
 	var crypto = require('crypto');
 
 	// defining schemas
-	var UserSchema = mongoose.Scchema({
+	var UserSchema = new mongoose.Schema({
 		id: mongoose.Schema.Types.ObjectId,
 		email: {type: String, required: true, unique: true},
 		password: {type: String, required: true},
@@ -64,6 +64,7 @@ module.exports = function(mongoose) {
 		create: create,
 		update: update,
 		remove: remove,
-		authenticate: authenticate
+		authenticate: authenticate,
+		exists: exists
 	};
 };
