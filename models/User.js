@@ -50,6 +50,19 @@ module.exports = function(mongoose) {
 	var remove = function(){};
 
 	var authenticate = function(email, password, callback){
+
+		User.findOne({
+			email: email,
+			password: crypto.createHash('sha256').update(u.password).digest('hex')
+		}, function(err, doc) {
+			if (err) return callback({
+				error: {
+					code: 500,
+					err: err
+				}
+			});
+			return callback({success: true, id: doc.id});
+		});
 	};
 
 	var exists = function(email, callback) {
