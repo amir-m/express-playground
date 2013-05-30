@@ -11,16 +11,16 @@ module.exports = function(colors, mongoose, models) {
 			return res.send('Email and Password Are Required.');
 		};
 
-		models.User.authenticate(req.body.email, req.body.email, function(r){
+		models.User.authenticate(req.body.email, req.body.password, function(r){
 			
-			if (r.success) {
+			if (r && r.success) {
 				console.log('POST /login Successfull Login.'.info);
 				req.session.loggedIn = true;
 				req.session.userId = r.id;
 				return res.send(200);
 			}
 
-			if (r.error.code == 500) {
+			if (r && r.erro && r.error.code == 500) {
 				console.log('POST /login Failed to fetch the user info!'.error);
 				res.status(500);
 				return res.send('Sorry! We had a problem logging you in. Please try '
@@ -68,6 +68,7 @@ module.exports = function(colors, mongoose, models) {
 	};
 
 	var exists = function(req, res) {
+		console.log(req.session.userId);
 		if (!req.query.email || req.query.email.length < 1) return res.send();
 
 		models.User.exists(req.query.email, function (yes){
