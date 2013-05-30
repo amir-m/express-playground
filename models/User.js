@@ -1,4 +1,4 @@
-exports.User = function() {
+exports.User = function(mongoose) {
 
 	var create = function(){};
 
