@@ -3,11 +3,13 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+var express = require('express');
+var http = require('http');
+var path = require('path');
+// var mongoose
+
+var routes = require('./routes/index');
+var user = require('./routes/user');
 
 var app = express();
 
@@ -15,6 +17,8 @@ var app = express();
 app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.set('view options', {layout: false});
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -22,21 +26,22 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({secret:'doob.io is TOP SECRET!'}));
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+// Public static files
+app.get('/public/*', routes.public);
+
 // If the user is not authenticated, redirect it to '/login'.
-app.use(function(req, res, next){
-	if (!req.session.loggedIn) return res.render('login.jade');
-	next();
-});
-
 app.get('/', routes.index);
-app.get('/users', user.list);
 
+// Main Authentication route.
+app.post('/login', user.login);
+
+// app.get('/users', user.list);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
