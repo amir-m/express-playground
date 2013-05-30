@@ -1,0 +1,35 @@
+doctype 5
+html(ng-app="loginApp")
+	head
+		title Login to Unleash the World of Sounds
+		link(rel='stylesheet', href='/public/css/bootstrap.css')
+		link(rel='stylesheet', href='/public/css/style.css')
+	body
+		#login(ng-controller='loginCtrl')
+			form.signInForm
+				h3 I want To:
+				fieldset
+					legend Sign In With My
+					button.btn.btn-info.btn-block(ng-click='facebookConnect()') Facebook Account
+					br
+					button.btn.btn-warning.btn-block(ng-click='soundcloudConnect()') SoundCloud Account
+					br
+					label
+						|Email
+						br
+						input(name='email', type='text')
+						br
+						|Password
+						input(name='password', type='password')
+						br
+					label
+						input.btn.btn-success(type='submit', value='Sign In', ng-click='signIn()')
+						span(style='vertical-align:bottom')
+						input(type='checkbox', checked) 
+						| Remember Me
+					br
+				fieldset
+					legend Register As a New User
+					a(href='#', ng-click='register()') Register
+		script(type='text-javascript', src='/public/js/libs/require.js')
+		script(type='text-javascript', src='/public/js/controllers/login.js')
