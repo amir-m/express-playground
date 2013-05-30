@@ -44,7 +44,13 @@ exports.register = function(req, res){
 	});
 };
 
-exports.exists = function() {};
+exports.exists = function(req, res) {
+	if (!req.query.email || req.query.email.length < 1) return res.send();
+	models.User.exists(req,query.email, callback(yes){
+		if (yes) return res.send(409);
+		return res.send(200);
+	});
+};
 
 var save = function(){
 }
