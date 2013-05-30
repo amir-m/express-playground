@@ -5,11 +5,15 @@
 
 var express = require('express');
 var http = require('http');
+var mongoose = require('mongoose');
 var path = require('path'); 
 var colors = require('colors');
 
-var routes = require('./routes/index');
-var user = require('./routes/user');
+var routes = {
+	index: require('./routes/index'),
+	public: require('./routes/index'),
+	login: require('./routes/user')
+};
 
 var app = express();
 
@@ -53,7 +57,7 @@ app.get('/public/*', routes.public);
 app.get('/', routes.index);
 
 // Main Authentication route.
-app.post('/login', user.login);
+app.post('/login', routes.login);
 
 // app.get('/users', user.list);
 http.createServer(app).listen(app.get('port'), function(){
