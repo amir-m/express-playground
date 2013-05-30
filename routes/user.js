@@ -1,16 +1,29 @@
 module.exports = function(colors, mongoose, models) {
 
 	var login = function(req, res){
+		
+		if (req.session.loggedIn) return res.redirect('/');
+
 		if (!req.param('email') || req.param('email').length < 1 || 
 			!req.param('password') || req.param('password').length < 1) {
 			res.status(400);
 			console.log('POST /login: Missing Username or Password.'.error);
 			return res.send('Email and Password Are Required.');
 		};
-		if (req.session.loggedIn) return res.redirect('/');
-		console.log('email: %s, \tpassword: %s', req.param('email'), req.param('password'));
-		res.status(200);
-		res.send('Succeeded :)');
+
+		models.User.authenticate(req.param('email'), req.param('password'), function(r){
+			
+			if (r.success) {
+				console.log('POST /login Successfull Login.'.info);
+				req.session.loggedIn = true;
+				req.session.userId = r.id;
+				return res.status(200);
+			}
+
+			if (req.session.loggedIn) delete req.session.loggedIn;
+			if (req.session.userId) delete req.session.userId;
+			return res.send(401);
+		});
 	};
 
 	var register = function(req, res){
