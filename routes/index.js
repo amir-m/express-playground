@@ -4,5 +4,9 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.sendfile('views/login.html');
+};
+
+exports.public = function(req, res, next){
+	res.sendfile('public/'+req.params[0]);
 };
