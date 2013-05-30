@@ -1,0 +1,36 @@
+<html ng-app="loginModule">
+	<head>
+		<title>Login</title>
+		<link href="public/css/bootstrap.css" rel="stylesheet">
+		<link href="public/css/style.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<div id="login" ng-controller="LoginController">
+ 			<form class="signInForm">
+ 				<h3>I want to</h3>
+ 				<fieldset >
+ 					<legend>Sign In With My</legend>
+					<button class="btn btn-info btn-block" ng-click="facebook()">Facebook Account</button><br>
+					<button class="btn btn-warning btn-block" ng-click="soundcloud()">SoundCloud Account</button><br>
+					Email<br><input ng-model="email" type="email" required>
+					<br>
+					Password | <a href="" style="vertical-align:bottom" required>I forgot my password!</a>
+					<br>
+					<input ng-model="password" type="password" required>
+					<br><br>
+					<label>
+						<button class="btn btn-success" ng-click="signIn()">Sign In</button>
+						<span style="vertical-align:bottom">
+							<input ng-model="rememberMe" type="checkbox"> Remember me
+						</span>
+					</label>
+				</fieldset><br>
+				<fieldset>
+					<legend><a href="" ng-click="register()">Register As a New User</a></legend>
+			</fieldset>
+			</form>
+		</div>
+		<script src="public/js/libs/angular.js"></script>
+		<script src="public/js/controllers/login.js"></script>
+	</body>
+<html>
