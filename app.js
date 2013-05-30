@@ -6,6 +6,7 @@
 var express = require('express');
 var http = require('http');
 var mongoose = require('mongoose');
+var connect = require('connect');
 var path = require('path'); 
 var colors = require('colors');
 
@@ -19,7 +20,7 @@ app.set('view options', {layout: false});
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.favicon('./public/img/icon.png'));
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(connect.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({secret:'doob.io is TOP SECRET!'}));
