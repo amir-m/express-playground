@@ -36,7 +36,8 @@ module.exports = function(mongoose) {
 	var User = mongoose.model('User', UserSchema);
 
 	var create = function(options, callback){
-		options.password = crypto.createHash('sha256').update(options.password).digest('hex')
+		options.password = crypto.createHash('sha256').update(options.password).digest('hex');
+		options.id = new mongoose.Types.ObjectId;
 		var user = new User(options);
 		user.save(function(err){
 			if (err) return callback({error: err});
@@ -49,7 +50,13 @@ module.exports = function(mongoose) {
 	var remove = function(){};
 
 	var authenticate = function(email, password, callback){
+	};
 
+	var exists = function(email, callback) {
+		User.findOne({email: email}, function(err, doc){
+			if (doc) return callback(true);
+			return callback(false);
+		});
 	};
 
 	return {
