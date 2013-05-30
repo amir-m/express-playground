@@ -1,5 +1,6 @@
 exports.User = function(mongoose) {
 
+	// defining schemas
 	var UserSchema = mongoose.Scchema({
 		id: mongoose.Schema.Types.ObjectId,
 		email: {type: String, required: true},
@@ -23,6 +24,9 @@ exports.User = function(mongoose) {
 		email: 1,
 		tags: 1
 	});
+
+	// models
+	var User = mongoose.model('User', UserSchema);
 
 	var create = function(){};
 
