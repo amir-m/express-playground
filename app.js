@@ -29,7 +29,8 @@ var routes = {
 	index: require('./routes/index').index,
 	public: require('./routes/index').public,
 	login: require('./routes/user').login,
-  exists: require('./routes/user').exists
+  exists: require('./routes/user').exists,
+  register: require('./routes/user').register
 };
 
 var models = {
@@ -60,6 +61,8 @@ app.get('/', routes.index);
 app.get('/exists', routes.exists);
 
 app.post('/login', routes.login);
+
+app.post('/register', routes.register);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
