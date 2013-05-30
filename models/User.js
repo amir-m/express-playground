@@ -4,7 +4,6 @@ module.exports = function(mongoose) {
 
 	// defining schemas
 	var UserSchema = new mongoose.Schema({
-		id: mongoose.Schema.Types.ObjectId,
 		email: {type: String, required: true, unique: true},
 		password: {type: String, required: true},
 		name: {type: String, required: true},
@@ -37,7 +36,7 @@ module.exports = function(mongoose) {
 
 	var create = function(options, callback){
 		options.password = crypto.createHash('sha256').update(options.password).digest('hex');
-		options.id = new mongoose.Types.ObjectId;
+
 		var user = new User(options);
 		user.save(function(err){
 			if (err) return callback({error: err});
@@ -53,15 +52,20 @@ module.exports = function(mongoose) {
 
 		User.findOne({
 			email: email,
-			password: crypto.createHash('sha256').update(u.password).digest('hex')
+			password: crypto.createHash('sha256').update(password).digest('hex')
 		}, function(err, doc) {
+			
 			if (err) return callback({
 				error: {
 					code: 500,
 					err: err
 				}
 			});
-			return callback({success: true, id: doc.id});
+				
+			if (doc) return callback({success: true, id: doc.id});
+			
+			callback();
+
 		});
 	};
 
