@@ -5,11 +5,16 @@ module.exports = function(mongoose) {
 	// defining schemas
 	var UserSchema = mongoose.Scchema({
 		id: mongoose.Schema.Types.ObjectId,
-		email: {type: String, required: true},
+		email: {type: String, required: true, unique: true},
 		password: {type: String, required: true},
 		name: {type: String, required: true},
 		isMale: Boolean,
-		dob: Date,
+		birthday: {
+			day : {type: Number, min: 1, max: 31, required: false},
+			month: {type: Number, min: 1, max: 12, required: false},
+			year: {type: Number}
+		}, 
+		photoUrl: {type: String},
 		createdAt: Date,
 		lastModifiedAt: Date,
 		decativated: {
