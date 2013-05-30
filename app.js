@@ -10,9 +10,9 @@ var path = require('path');
 var colors = require('colors');
 
 var routes = {
-	index: require('./routes/index'),
-	public: require('./routes/index'),
-	login: require('./routes/user')
+	index: require('./routes/index').index,
+	public: require('./routes/index').public,
+	login: require('./routes/user').login
 };
 
 var app = express();
@@ -59,7 +59,6 @@ app.get('/', routes.index);
 // Main Authentication route.
 app.post('/login', routes.login);
 
-// app.get('/users', user.list);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
