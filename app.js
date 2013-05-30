@@ -28,7 +28,8 @@ app.use(app.router);
 var routes = {
 	index: require('./routes/index').index,
 	public: require('./routes/index').public,
-	login: require('./routes/user').login
+	login: require('./routes/user').login,
+  exists: require('./routes/user').exists
 };
 
 var models = {
@@ -55,6 +56,8 @@ if ('development' == app.get('env')) {
 app.get('/public/*', routes.public);
 
 app.get('/', routes.index);
+
+app.get('/exists', routes.exists);
 
 app.post('/login', routes.login);
 
