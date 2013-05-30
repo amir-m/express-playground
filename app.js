@@ -25,18 +25,6 @@ app.use(express.cookieParser());
 app.use(express.session({secret:'doob.io is TOP SECRET!'}));
 app.use(app.router);
 
-var routes = {
-	index: require('./routes/index').index,
-	public: require('./routes/index').public,
-	login: require('./routes/user').login,
-  exists: require('./routes/user').exists,
-  register: require('./routes/user').register
-};
-
-var models = {
-  User: require('./models/User')(mongoose)
-}
-
 colors.setTheme({
   silly: 'rainbow',
   input: 'grey',
@@ -49,6 +37,24 @@ colors.setTheme({
   debug: 'blue',
   error: 'red'
 });
+
+mongoose.connect("mongodb://localhost/doob", function(err){
+    if (err) throw err;
+});
+
+var models = {
+  User: require('./models/User')(mongoose)
+};
+
+var userRoutes = require('./routes/user')(colors, mongoose, models);
+var routes = {
+  index: require('./routes/index').index,
+  public: require('./routes/index').public,
+  login: userRoutes.login,
+  exists: userRoutes.exists,
+  register: userRoutes.register
+};
+
 
 // development only
 if ('development' == app.get('env')) {
