@@ -15,6 +15,10 @@ var routes = {
 	login: require('./routes/user').login
 };
 
+var models = {
+  User: require('./models/User')(mongoose)
+}
+
 var app = express();
 
 // all environments
@@ -23,7 +27,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('view options', {layout: false});
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.favicon());
+app.use(express.favicon('./public/img/icon.png'));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
