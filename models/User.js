@@ -1,4 +1,6 @@
-exports.User = function(mongoose) {
+module.exports = function(mongoose) {
+
+	var crypto = require('crypto');
 
 	// defining schemas
 	var UserSchema = mongoose.Scchema({
@@ -28,9 +30,16 @@ exports.User = function(mongoose) {
 	// models
 	var User = mongoose.model('User', UserSchema);
 
-	var create = function(){};
+	var create = function(options, callback){
+		options.password = crypto.createHash('sha256').update(options.password).digest('hex')
+		var user = new User(options);
+		user.save(function(err){
+			if (err) return callback({error: err});
+			callback({success: true});
+		});
+	};
 
-	var update = function(){};
+	var update = function(options){};
 
 	var remove = function(){};
 
@@ -39,6 +48,7 @@ exports.User = function(mongoose) {
 	};
 
 	return {
+		User: User,
 		create: create,
 		update: update,
 		remove: remove,
