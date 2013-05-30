@@ -5,8 +5,8 @@
 
 var express = require('express');
 var http = require('http');
-var path = require('path');
-// var mongoose
+var path = require('path'); 
+var colors = require('colors');
 
 var routes = require('./routes/index');
 var user = require('./routes/user');
@@ -26,6 +26,20 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({secret:'doob.io is TOP SECRET!'}));
 app.use(app.router);
+
+// Colors themes
+colors.setTheme({
+  silly: 'rainbow',
+  input: 'grey',
+  verbose: 'cyan',
+  prompt: 'grey',
+  info: 'green',
+  data: 'grey',
+  help: 'cyan',
+  warn: 'yellow',
+  debug: 'blue',
+  error: 'red'
+});
 
 // development only
 if ('development' == app.get('env')) {
