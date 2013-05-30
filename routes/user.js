@@ -14,21 +14,21 @@ module.exports = function(colors, mongoose, models) {
 	};
 
 	var register = function(req, res){
-		if (!req.param('email') || req.param('email').length < 1 || 
-			!req.param('password') || req.param('password').length < 1 || 
-			!req.param('name') || req.param('name').length < 1 || req.param('notExists') == false) {
+		if (!req.body.email || req.body.email.length < 1 || 
+			!req.body.password || req.body.password.length < 1 || 
+			!req.body.name || req.body.name.length < 1 || req.body.notExists == false) {
 			console.log('POST /register: Bad Registration Request.'.error);
 			return res.send(400);
 		};
-		models.User.exists(req.param('email'), function(yes){
+		models.User.exists(req.body.email, function(yes){
 			if (yes) {
 				console.log('POST /register: User Exists.'.error);
 				return res.send(400)
 			};
 	 		models.User.create({
-	 			email: req.param('email'),
-	 			password: req.param('password'),
-	 			name: req.param('name')
+	 			email: req.body.email,
+	 			password: req.body.password,
+	 			name: req.body.name
 	 			//////////////////////////////////
 	 			/////////////////////////////////////TODO
 	 			// Add the rest of the model here...
