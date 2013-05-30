@@ -9,16 +9,6 @@ var mongoose = require('mongoose');
 var path = require('path'); 
 var colors = require('colors');
 
-var routes = {
-	index: require('./routes/index').index,
-	public: require('./routes/index').public,
-	login: require('./routes/user').login
-};
-
-var models = {
-  User: require('./models/User')(mongoose)
-}
-
 var app = express();
 
 // all environments
@@ -35,7 +25,16 @@ app.use(express.cookieParser());
 app.use(express.session({secret:'doob.io is TOP SECRET!'}));
 app.use(app.router);
 
-// Colors themes
+var routes = {
+	index: require('./routes/index').index,
+	public: require('./routes/index').public,
+	login: require('./routes/user').login
+};
+
+var models = {
+  User: require('./models/User')(mongoose)
+}
+
 colors.setTheme({
   silly: 'rainbow',
   input: 'grey',
@@ -53,14 +52,10 @@ colors.setTheme({
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-// Public static files
 app.get('/public/*', routes.public);
 
-// If the user is not authenticated, redirect it to '/login'.
 app.get('/', routes.index);
 
-// Main Authentication route.
 app.post('/login', routes.login);
 
 http.createServer(app).listen(app.get('port'), function(){
