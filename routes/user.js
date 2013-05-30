@@ -17,7 +17,15 @@ module.exports = function(colors, mongoose, models) {
 				console.log('POST /login Successfull Login.'.info);
 				req.session.loggedIn = true;
 				req.session.userId = r.id;
-				return res.status(200);
+				return res.send(200);
+			}
+
+			if (r.error.code == 500) {
+				console.log('POST /login Failed to fetch the user info!'.error);
+				res.status(500);
+				return res.send('Sorry! We had a problem logging you in. Please try '
+					+ 'again a bit later. Thanks!');
+
 			}
 
 			if (req.session.loggedIn) delete req.session.loggedIn;
