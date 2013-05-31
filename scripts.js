@@ -1,10 +1,11 @@
 var http = require('http');
 
-loginUser();
+
+//loginUser();
 
 // registerUser();
 
-function registerUser(){
+exports.registerUser = function (){
 	var options = {
 		hostname: 'localhost',
 		port: 8080,
@@ -40,7 +41,7 @@ function registerUser(){
 	req.end();
 };
 
-function loginUser(){
+exports.loginUser = function (){
 	var options = {
 		hostname: 'localhost',
 		port: 8080,
@@ -70,6 +71,25 @@ function loginUser(){
 
 	// write data to request body JSON.stringify(user)
 	req.write(JSON.stringify(user));
+
+	req.end();
+};
+
+exports.userExists = function(email, callback){
+	var options = {
+		hostname: 'localhost',
+		port: 8080,
+		path: '/exists?email=' + email,
+		method: 'GET'
+	};
+
+	var req = http.request(options, function(res) {
+		callback(res.statusCode);
+	});
+
+	req.on('error', function(e) {
+		console.log('problem with request: ' + e.message);
+	});
 
 	req.end();
 };
