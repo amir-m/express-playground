@@ -41,7 +41,12 @@ exports.registerUser = function (){
 	req.end();
 };
 
-exports.loginUser = function (){
+// var user = {
+// 	'email': 'amir@doob.io',
+// 	'password': 'mypassword'
+// };
+
+exports.loginUser = function (user, callback){
 	var options = {
 		hostname: 'localhost',
 		port: 8080,
@@ -54,22 +59,17 @@ exports.loginUser = function (){
 
 	var req = http.request(options, function(res) {
 		console.log('STATUS: ' + res.statusCode);
-		res.setEncoding('utf8');
-		res.on('data', function (chunk) {
-			console.log('BODY: ' + chunk);
-		});
+		// res.setEncoding('utf8');
+		// res.on('data', function (chunk) {
+		// 	console.log('BODY: ' + chunk);
+		// });
+		return callback(res.statusCode);
 	});
 
 	req.on('error', function(e) {
 		console.log('problem with request: ' + e.message);
 	});
 
-	var user = {
-		'email': 'amir@doob.io',
-		'password': 'mypassword'
-	};
-
-	// write data to request body JSON.stringify(user)
 	req.write(JSON.stringify(user));
 
 	req.end();
@@ -84,7 +84,8 @@ exports.userExists = function(email, callback){
 	};
 
 	var req = http.request(options, function(res) {
-		callback(res.statusCode);
+		console.log('STATUS: ' + res.statusCode);
+		return callback(res.statusCode);
 	});
 
 	req.on('error', function(e) {
