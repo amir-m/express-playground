@@ -12,6 +12,6 @@
     "connect": "*",
     "colors": "*",
     "path": "*",
-    "node-jasmine": "*"
+    "jasmine-node": "*"
   }
 }
