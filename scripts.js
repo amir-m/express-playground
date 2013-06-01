@@ -56,6 +56,7 @@ exports.loginUser = function (user, callback){
 
 	var req = http.request(options, function(res) {
 		console.log('STATUS: ' + res.statusCode);
+		console.log(res.headers);
 		// res.setEncoding('utf8');
 		// res.on('data', function (chunk) {
 		// 	console.log('BODY: ' + chunk);
