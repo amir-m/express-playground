@@ -39,8 +39,12 @@ module.exports = function(mongoose) {
 
 		var user = new User(options);
 		user.save(function(err){
-			if (err) return callback({error: err});
-			callback({success: true});
+			if (err) {
+				console.log('models.User.create callback error:'.error);
+				return callback({error: err});
+			};
+			console.log('models.User.create: a user succesfully registered.'.info);
+			return callback({success: true, id: user._id});
 		});
 	};
 
