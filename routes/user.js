@@ -28,7 +28,7 @@ module.exports = function(colors, mongoose, models) {
 
 			}
 
-			if (req.sessionreq.session && req.session.loggedIn) delete req.session.loggedIn;
+			if (req.session && req.session.loggedIn) delete req.session.loggedIn;
 			if (req.session && req.session.userId) delete req.session.userId;
 			return res.send(401);
 		});
