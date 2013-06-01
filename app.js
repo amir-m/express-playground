@@ -6,6 +6,8 @@
 var express = require('express');
 var http = require('http');
 var mongoose = require('mongoose');
+var redis = require('redis');
+var redisClient = redis.createClient();
 var RedisStore = require('connect-redis')(express);
 var connect = require('connect');
 var path = require('path'); 
@@ -29,8 +31,9 @@ app.use(express.cookieParser());
 //   store: new connect()
 // }));
 app.use(express.session({ 
-  store: new RedisStore(), 
-  secret: 'keyboard cat' 
+  store: new RedisStore({client: redisClient}), 
+  secret: 'keyboard cat',
+  cookie: {maxAge: 10000} 
 }));
 app.use(app.router);
 
@@ -45,6 +48,10 @@ colors.setTheme({
   warn: 'yellow',
   debug: 'blue',
   error: 'red'
+});
+
+redisClient.on("error", function (err) {
+  console.log("Error " + err);
 });
 
 mongoose.connect("mongodb://localhost/doob", function(err){
