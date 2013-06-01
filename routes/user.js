@@ -63,7 +63,6 @@ module.exports = function(colors, mongoose, models) {
 				};
 				req.session.loggedIn = true;
 				req.session.userId = r.id;
-				console.log(r.id);
 				return res.send(200);
 			});
 		});
