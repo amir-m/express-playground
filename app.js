@@ -6,6 +6,7 @@
 var express = require('express');
 var http = require('http');
 var mongoose = require('mongoose');
+var RedisStore = require('connect-redis')(express);
 var connect = require('connect');
 var path = require('path'); 
 var colors = require('colors');
@@ -23,7 +24,14 @@ app.use(express.logger('dev'));
 app.use(connect.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({secret:'doob.io is TOP SECRET!'}));
+// app.use(express.session({
+//   secret:'doob.io is TOP SECRET!',
+//   store: new connect()
+// }));
+app.use(express.session({ 
+  store: new RedisStore(), 
+  secret: 'keyboard cat' 
+}));
 app.use(app.router);
 
 colors.setTheme({
