@@ -2,7 +2,7 @@ module.exports = function(colors, mongoose, models) {
 
 	var login = function(req, res){
 		
-		if (req.session.loggedIn) return res.redirect('/');
+		if (req.session && req.session.loggedIn) return res.redirect('/');
 
 		if (!req.body.email || req.body.email.length < 1 || 
 			!req.body.password || req.body.password.length < 1) {
@@ -28,8 +28,8 @@ module.exports = function(colors, mongoose, models) {
 
 			}
 
-			if (req.session.loggedIn) delete req.session.loggedIn;
-			if (req.session.userId) delete req.session.userId;
+			if (req.sessionreq.session && req.session.loggedIn) delete req.session.loggedIn;
+			if (req.session && req.session.userId) delete req.session.userId;
 			return res.send(401);
 		});
 	};
