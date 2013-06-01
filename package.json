@@ -10,6 +10,7 @@
     "jade": "*",
     "mongoose": "*",
     "connect": "*",
+    "connect-redis": "*",
     "colors": "*",
     "path": "*",
     "jasmine-node": "*"
