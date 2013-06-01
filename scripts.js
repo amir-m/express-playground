@@ -5,7 +5,7 @@ var http = require('http');
 
 // registerUser();
 
-exports.registerUser = function (){
+exports.registerUser = function (user, callback){
 	var options = {
 		hostname: 'localhost',
 		port: 8080,
@@ -17,28 +17,25 @@ exports.registerUser = function (){
 	};
 
 	var req = http.request(options, function(res) {
-		console.log('STATUS: ' + res.statusCode);
-		res.setEncoding('utf8');
-		res.on('data', function (chunk) {
-			console.log('BODY: ' + chunk);
-		});
+		console.log('registerUser STATUS: ' + res.statusCode);
+		return callback(res.statusCode);
 	});
 
 	req.on('error', function(e) {
 		console.log('problem with request: ' + e.message);
 	});
 
-	var user = {
-		'name': 'Amir',
-		'email': 'amir@doob.io',
-		'password': 'mypassword'
-	};
+	// var user = {
+	// 	'name': 'Amir',
+	// 	'email': 'amir@doob.io',
+	// 	'password': 'mypassword'
+	// };
 
-	console.log(JSON.stringify(user));
-	// write data to request body JSON.stringify(user)
+
 	req.write(JSON.stringify(user));
 
 	req.end();
+	console.log(JSON.stringify(user));
 };
 
 // var user = {
