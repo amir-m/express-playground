@@ -52,16 +52,19 @@ module.exports = function(colors, mongoose, models) {
 	 			name: req.body.name
 	 			//////////////////////////////////
 	 			/////////////////////////////////////TODO
-	 			// Add the rest of the model here...
+	 			// Add the rest of the model like bio, birthday, etc here...
 	 			/////////////////////////////////////TODO 			
 	 			//////////////////////////////////
 	 		}, function(r){
-				if (r.error) {
+				if (!r || (r && r.error)) {
 					console.log('models.User.create callback error:'.error);
 					console.log(r.error);
 					return res.send(500);
 				};
+
 				console.log('models.User.create: a user succesfully registered.'.info);
+				req.session.loggedIn = true;
+				req.session.userId = r.id;
 				return res.send(200);
 			});
 		});
