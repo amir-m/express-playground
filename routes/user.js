@@ -17,7 +17,8 @@ module.exports = function(colors, mongoose, models) {
 				console.log('POST /login Successfull Login.'.info);
 				req.session.loggedIn = true;
 				req.session.userId = r.id;
-				return res.send(200);
+				// return res.send(200);
+				return res.redirect('/');
 			}
 
 			if (r && r.erro && r.error.code == 500) {
