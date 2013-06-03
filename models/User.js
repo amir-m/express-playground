@@ -4,23 +4,52 @@ module.exports = function(mongoose) {
 
 	// defining schemas
 	var UserSchema = new mongoose.Schema({
+		_id: {type: String, required: true, unique: true},
 		email: {type: String, required: true, unique: true},
 		password: {type: String, required: true},
-		name: {type: String, required: true},
-		isMale: Boolean,
-		birthday: {
-			day : {type: Number, min: 1, max: 31, required: false},
-			month: {type: Number, min: 1, max: 12, required: false},
-			year: {type: Number}
-		}, 
-		photoUrl: {type: String},
+		profile: {
+			name: {type: String, required: true},
+			isMale: Boolean,
+			birthday: {
+				day : {type: Number, min: 1, max: 31, required: false},
+				month: {type: Number, min: 1, max: 12, required: false},
+				year: {type: Number}
+			}, 
+			photoUrl: {type: String},
+			photoTumbUrl: {type: String},
+			tags: [String],
+			bio: String,
+			facebookPage: String,
+			facebookUser: String,
+			soundCloud: String,
+			twitter: String,
+			instagram: String,
+			website: String,
+			booking: String
+		},
 		createdAt: Date,
 		lastModifiedAt: Date,
 		decativated: {
 			timestamp: Date
 		},
-		tags: [String],
-		description: String
+		followers: [Follower],
+		circles: []
+	});
+
+	var FollowerSchema = new mongoose.Schema({
+		userId: String,
+		name: String,
+		photoTumbUrl: String
+	});
+
+	var CircleSchema = new mongoose.Schema({
+		_id: String,
+		name: String,
+		photoTumbUrl: String, 
+		photoUrl: String,
+		creator: Follower,
+		followers: [followers],
+		posts: [Post]
 	});
 
 	// schema settings
@@ -35,7 +64,9 @@ module.exports = function(mongoose) {
 	var User = mongoose.model('User', UserSchema);
 
 	var create = function(options, callback){
-		options.password = crypto.createHash('sha256').update(options.password).digest('hex');
+		// Base-64 encoding of ObjectId
+		options._id = _objectId;
+		options.password = _password(options.password);
 
 		var user = new User(options);
 		user.save(function(err){
@@ -46,6 +77,14 @@ module.exports = function(mongoose) {
 			console.log('models.User.create: a user succesfully registered.'.info);
 			return callback({success: true, id: user._id});
 		});
+	};
+
+	var _objectId = function() {
+		return new Buffer((new mongoose.Types.ObjectId).toString()).toString('base64');
+	};
+
+	var _password = function(pass) {
+		return crypto.createHash('sha256').update(pass).digest('hex');
 	};
 
 	var update = function(options){};
