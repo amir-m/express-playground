@@ -1,6 +1,7 @@
 module.exports = function(mongoose) {
 
 	var crypto = require('crypto');
+	var validate = require('mongoose-validator').validate;
 
 	// defining schemas
 	var UserSchema = new mongoose.Schema({
@@ -15,6 +16,7 @@ module.exports = function(mongoose) {
 				month: {type: Number, min: 1, max: 12, required: false},
 				year: {type: Number}
 			}, 
+			buzzword: {type: String, validate('len', 0, 30)},
 			photoUrl: {type: String},
 			photoTumbUrl: {type: String},
 			tags: [String],
@@ -32,18 +34,21 @@ module.exports = function(mongoose) {
 		decativated: {
 			timestamp: Date
 		},
-		followers: [Follower],
-		circles: []
+		followers: [Follow],
+		following: [Follow],
+		circles: [Circle],
+		onlineStatus: Boolean
 	});
 
-	var FollowerSchema = new mongoose.Schema({
+	var FollowSchema = new mongoose.Schema({
 		userId: String,
 		name: String,
-		photoTumbUrl: String
+		photoTumbUrl: String,
+		buzzword: {type: String, validate('len', 0, 30)}
 	});
 
 	var CircleSchema = new mongoose.Schema({
-		_id: String,
+
 		name: String,
 		photoTumbUrl: String, 
 		photoUrl: String,
